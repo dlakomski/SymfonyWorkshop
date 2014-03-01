@@ -1,0 +1,46 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <h1 class="page-header">{{ product.name }}</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a class="thumbnail">
+                <img src="{{ asset(product.getWebPath()) }}" alt="{{ product.name }}"/>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <dl>
+                <dt>Nazwa</dt>
+                <dd>{{ product.name }}</dd>
+
+                <dt>Cena</dt>
+                <dd>{{ product.price | number_format(2, ',', ' ') }} zł</dd>
+
+                <dt>Zdjęcie</dt>
+                <dd>{{ asset(product.getWebPath()) }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-2">
+            <div class="pull-right">
+                <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-edit"></span> Zmień
+                </a>
+                <a href="{{ path('product_delete', {'id': product.id}) }}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span> Usuń
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('a.btn-danger').click(function () {
+                return confirm('Na pewno?');
+            });
+        });
+    </script>
+{% endblock %}
